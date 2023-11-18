@@ -61,4 +61,10 @@ export class AppController {
     const { address } = body;
     return { result: await this.appService.givingRole(address) };
   }
+
+    @Post('vote')
+  async vote(@Body() body: VotingDto) {
+    const { proposalNumber, amount } = body;
+    return { result: await this.appService.vote(proposalNumber, amount) };
+  }
 }
