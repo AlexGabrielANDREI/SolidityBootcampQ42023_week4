@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MintTokenDto } from './dtos/mintToken.dto';
 import { SubscribersDto } from './dtos/subscribers.dto';
+import { VotingDto } from './dtos/voting.dto';
 
 @Controller()
 export class AppController {
@@ -56,13 +57,19 @@ export class AppController {
     return { result: await this.appService.mintTokens(address, value) };
   }
 
+  @Post('self-delegate')
+  async selfDelegate(@Body() body: SubscribersDto) {
+    const { address } = body;
+    return { result: await this.appService.selfDelegate(address) };
+  }
+
   @Post('granted-role')
   async givingRole(@Body() body: SubscribersDto) {
     const { address } = body;
     return { result: await this.appService.givingRole(address) };
   }
 
-    @Post('vote')
+  @Post('vote')
   async vote(@Body() body: VotingDto) {
     const { proposalNumber, amount } = body;
     return { result: await this.appService.vote(proposalNumber, amount) };

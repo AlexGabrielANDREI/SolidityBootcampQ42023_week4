@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ethers } from 'ethers';
-//import * as tokenJson from './assets/MyToken.json';
-import * as tokenJson from './assets/TokenizedBallot.json'; //for voting feature
+import * as tokenJson from './assets/MyToken.json';
+// import * as tokenJson from './assets/TokenizedBallot.json'; //for voting feature
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -79,6 +79,17 @@ export class AppService {
     try {
       const tx = await this.contract.mint(address, ethers.parseUnits(value));
       await tx.wait(); // Wait for the transaction to be mined
+      return { success: true, transactionHash: tx.hash };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async selfDelegate(address: string) {
+    try {
+      const tx = await this.contract.delegate(address);
+      await tx.wait();
+
       return { success: true, transactionHash: tx.hash };
     } catch (error) {
       return { success: false, error: error.message };
