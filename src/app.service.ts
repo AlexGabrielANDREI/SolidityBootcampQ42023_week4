@@ -117,12 +117,20 @@ export class AppService {
 
   async getProposals() {
     try {
-      // console.log('Before getting prposals');
-      // const proposals = await (this.ballotContract.proposals() as any)([]);
-      // console.log(`${proposals}`);
-      return true;
+      console.log('encodedProposals:');
+      const name:string[] = await this.ballotContract.getProposals();
+      let index:number = 0;
+      let proposals:string[]=[];
+      
+      name.forEach(prop => {
+        proposals.push(`${index} - ${ethers.decodeBytes32String(prop)}`);
+        index++;
+      });
+
+      return proposals;
+
     } catch (error) {
-      return { success: false, error: error.message };
+      return error.message;
     }
   }
 }
