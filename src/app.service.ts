@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ethers } from 'ethers';
 import * as tokenJson from './assets/MyToken.json';
-// import * as tokenJson from './assets/TokenizedBallot.json'; //for voting feature
+import * as ballotJson from './assets/TokenizedBallot.json'; //for voting feature
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
   contract: ethers.Contract;
+  ballotContract: ethers.Contract;
   provider: ethers.Provider;
   wallet: ethers.Wallet;
 
@@ -21,6 +22,11 @@ export class AppService {
     this.contract = new ethers.Contract(
       this.configService.get<string>('TOKEN_ADDRESS'),
       tokenJson.abi,
+      this.wallet,
+    );
+    this.ballotContract = new ethers.Contract(
+      this.configService.get<string>('BALLOT_ADDR'),
+      ballotJson.abi,
       this.wallet,
     );
   }
@@ -98,12 +104,23 @@ export class AppService {
 
   async vote(proposalNumber: string, amount: string) {
     try {
-      const tx = await this.contract.vote(
+      const tx = await this.ballotContract.vote(
         proposalNumber,
         ethers.parseUnits(amount),
       );
       await tx.wait(); // Wait for the transaction to be mined
       return { success: true, transactionHash: tx.hash };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getProposals() {
+    try {
+      // console.log('Before getting prposals');
+      // const proposals = await (this.ballotContract.proposals() as any)([]);
+      // console.log(`${proposals}`);
+      return true;
     } catch (error) {
       return { success: false, error: error.message };
     }

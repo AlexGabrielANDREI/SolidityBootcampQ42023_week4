@@ -74,4 +74,9 @@ export class AppController {
     const { proposalNumber, amount } = body;
     return { result: await this.appService.vote(proposalNumber, amount) };
   }
+
+  @Get('get-proposals')
+  async getProposals() {
+    return { result: await this.appService.getProposals() };
+  }
 }
