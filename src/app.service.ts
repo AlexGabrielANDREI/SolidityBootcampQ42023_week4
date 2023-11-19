@@ -117,7 +117,6 @@ export class AppService {
 
   async getProposals() {
     try {
-      console.log('encodedProposals:');
       const name:string[] = await this.ballotContract.getProposals();
       let index:number = 0;
       let proposals:string[]=[];
@@ -133,4 +132,16 @@ export class AppService {
       return error.message;
     }
   }
+
+  async getVotingPower(address: string) {
+    try {
+      const votingPower:any = await this.ballotContract.votingPower(address);
+      
+      return votingPower.toString();
+
+    } catch (error) {
+      return error.message;
+    }
+  }
+  
 }

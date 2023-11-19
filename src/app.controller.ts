@@ -79,4 +79,9 @@ export class AppController {
   async getProposals() {
     return { result: await this.appService.getProposals() };
   }
+
+  @Get('get-votingPower/:address')
+  async getVotingPower(@Param('address') address: string) {
+    return { result: await this.appService.getVotingPower(address) };
+  }
 }
