@@ -143,5 +143,23 @@ export class AppService {
       return error.message;
     }
   }
-  
+  async proposal0() {
+    const proposal0 = await this.ballotContract.proposals(0);
+    return {'name': ethers.decodeBytes32String(proposal0.name), 'Number of votes': ethers.formatUnits(proposal0.voteCount).toString()}
+  }
+
+  async proposal1() {
+    const proposal1 = await this.ballotContract.proposals(1);
+    return {'name': ethers.decodeBytes32String(proposal1.name), 'Number of votes': ethers.formatUnits(proposal1.voteCount).toString()}
+  }
+
+  async proposal2() {
+    const proposal2 = await this.ballotContract.proposals(2);
+    return {'name': ethers.decodeBytes32String(proposal2.name), 'Number of votes': ethers.formatUnits(proposal2.voteCount).toString()}
+  }
+
+  async getWinningProposal() {
+    const winningProposal = await this.ballotContract.winningProposal();
+    return ethers.decodeBytes32String(winningProposal);
+  }
 }
