@@ -143,5 +143,25 @@ export class AppService {
       return error.message;
     }
   }
+
+  async opt1() {
+    const opt1 = await this.ballotContract.proposals(0);
+    return {'Option': ethers.decodeBytes32String(opt1.name), 'Total Votes': ethers.formatUnits(opt1.voteCount).toString()}
+  }
+
+  async opt2() {
+    const opt2 = await this.ballotContract.proposals(1);
+    return {'Option': ethers.decodeBytes32String(opt2.name), 'Total Votes': ethers.formatUnits(opt2.voteCount).toString()}
+  }
+
+  async opt3() {
+    const opt3 = await this.ballotContract.proposals(2);
+    return {'Option': ethers.decodeBytes32String(opt3.name), 'Total Votes': ethers.formatUnits(opt3.voteCount).toString()}
+  }
+
+  async getWinningProposal() {
+    const winningProposal = await this.ballotContract.winningProposal();
+    return ethers.decodeBytes32String(winningProposal);
+  }
   
 }

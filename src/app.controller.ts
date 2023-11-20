@@ -84,4 +84,25 @@ export class AppController {
   async getVotingPower(@Param('address') address: string) {
     return { result: await this.appService.getVotingPower(address) };
   }
+
+  @Get('Opt1')
+  async opt1() {
+    return {result: await this.appService.opt1()};
+  }  
+
+  @Get('Opt2')
+  async opt2() {
+    return {result: await this.appService.opt2()};
+  }  
+
+  @Get('Opt3')
+  async opt3() {
+    return {result: await this.appService.opt3()};
+  }  
+
+  @Get('winning-proposal')
+  async getWinningProposal() {
+    return {result: await this.appService.getWinningProposal()};
+  }
+  
 }
